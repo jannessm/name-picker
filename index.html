@@ -1,0 +1,117 @@
+<html>
+    <head>
+        <title>Namenslosung</title>
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                gap: 48px;
+            }
+
+            #content {
+                display: flex;
+                gap: 100px;
+            }
+            #inputs, #outputs {
+                display: flex;
+                flex-direction: column;
+            }
+            .winner {
+                background-color: lightgreen;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="timer"></div>
+        <div>
+            <label>Verfügbare Plätze</label>
+            <input id="places" type="number" min="1" max="40" value="20" onchange="updateWinnerStyles()">
+            <button onclick="select()">Auslosung starten</button>
+        </div>
+        <div id="content">
+            <div id="inputs">
+            </div>
+            <div id="outputs">
+            </div>
+        </div>
+        <script>
+            ////////// timer /////////
+            const timer = document.querySelector('#timer');
+            function setTime() {
+                timer.innerText = (new Date()).toLocaleString('de-DE');
+            }
+            setTime();
+            setInterval(setTime, 1000);
+
+            ////////// available places ///////////
+            const placesInput = document.querySelector('#places');
+            function updateWinnerStyles() {
+                for (let i = 0; i < outputs.children.length; i++) {
+                    const element = outputs.children[i];
+                    if (i < placesInput.value) {
+                        element.classList.add('winner');
+                    } else {
+                        element.classList.remove('winner');
+                    }
+                }
+            }
+
+
+            ////////// inputs /////////////
+            const inputs = document.querySelector('#inputs');
+            const outputs = document.querySelector('#outputs');
+    
+            function addInput(parent) {
+                const inp = document.createElement('input');
+                inp.placeholder = 'Name';
+                parent.appendChild(inp);
+            }
+
+            for (let i = 0; i < 40; i++) {
+                addInput(inputs);
+                addInput(outputs);
+            }
+            updateWinnerStyles();
+
+            function select() {
+                const names = []
+                // get names
+                for (let i = 0; i < inputs.children.length; i++) {
+                    const element = inputs.children[i];
+                    if (!!element.value) {
+                        names.push(element.value);
+                    }
+                }
+
+                // shuffle
+                shuffle(names);
+
+                //write to output
+                let j = 0;
+                for (let i = 0; i < outputs.children.length; i++) {
+                    const element = outputs.children[i];
+                    if (!element.value && j < names.length) {
+                        element.value = names[j];
+                        j++;
+                    }
+                }
+            }
+
+            function shuffle(array) {
+                let currentIndex = array.length;
+
+                // While there remain elements to shuffle...
+                while (currentIndex != 0) {
+
+                    // Pick a remaining element...
+                    let randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex--;
+
+                    // And swap it with the current element.
+                    [array[currentIndex], array[randomIndex]] = [
+                    array[randomIndex], array[currentIndex]];
+                }
+            }
+        </script>
+    </body>
+</html>
