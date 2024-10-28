@@ -9,6 +9,10 @@
                 align-items: center;
             }
 
+            #title {
+                font-size: large;
+            }
+
             #content {
                 display: flex;
                 gap: 100px;
@@ -31,6 +35,9 @@
             <label>Verfügbare Plätze</label>
             <input id="places" type="number" min="1" max="40" value="20" onchange="updateWinnerStyles()">
             <button onclick="select()">Auslosung starten</button>
+        </div>
+        <div>
+            <input id="title" placeholder="Titel">
         </div>
         <div id="content">
             <div id="inputs">
