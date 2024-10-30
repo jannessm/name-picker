@@ -92,7 +92,7 @@
                         inp = inp.nextSibling;
                         inp.focus();
                     }
-                } else if (event.data == null) {
+                } else if (event.inputType == 'insertLineBreak') {
                     inp.value = inp.value.trim();
                     inp = inp.nextSibling;
                     inp.focus();
