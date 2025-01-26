@@ -15,6 +15,16 @@
                 text-align: center;
             }
 
+            .container {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+            .enumerator {
+                display: inline-block;
+                width: 25px;
+            }
+
             #content {
                 display: flex;
                 gap: 100px;
@@ -61,10 +71,20 @@
             function updateWinnerStyles() {
                 for (let i = 0; i < outputs.children.length; i++) {
                     const element = outputs.children[i];
+                    
                     if (i < placesInput.value) {
                         element.classList.add('winner');
                     } else {
                         element.classList.remove('winner');
+                    }
+                    
+                    for (let j = 0; j < element.children.length; j++) {
+                        const child = element.children[j];
+                        if (i < placesInput.value) {
+                            child.classList.add('winner');
+                        } else {
+                            child.classList.remove('winner');
+                        }
                     }
                 }
             }
@@ -74,12 +94,22 @@
             const inputs = document.querySelector('#inputs');
             const outputs = document.querySelector('#outputs');
     
-            function addInput(parent) {
+            function addInput(i, parent) {
+                const container = document.createElement('div');
+                container.className = 'container';
+                
+                const label = document.createElement('div');
+                label.innerText = (i + 1) + '.';
+                label.className = 'enumerator';
+                
                 const inp = document.createElement('textarea');
                 inp.rows = 1;
                 inp.placeholder = 'Name';
                 inp.oninput = checkPaste;
-                parent.appendChild(inp);
+                
+                container.appendChild(label);
+                container.appendChild(inp);
+                parent.appendChild(container);
             }
 
             function checkPaste(event) {
@@ -100,8 +130,8 @@
             }
 
             for (let i = 0; i < 40; i++) {
-                addInput(inputs);
-                addInput(outputs);
+                addInput(i, inputs);
+                addInput(i, outputs);
             }
             updateWinnerStyles();
 
